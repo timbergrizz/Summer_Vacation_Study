@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+    web:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        container_name: board_apache
+        depends_on:
+            - db
+        volumes:
+            - ../src:/var/www/html/
+        ports:
+            - 8001:80
+    db:
+        container_name: board_sql
+        image: mysql:8.0
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test_db
+            MYSQL_USER: devuser
+            MYSQL_PASSWORD: devpass
+        ports:
+            - 6003:3306
